@@ -5,11 +5,26 @@ class Course{
         classes =[]
     })
     {
-        this.name = name;
+        this._name = name;
         this.classes = classes
+    }
+    get name(){
+        return this._name;
+    }
+    set name(nuevoNombrecito){
+        if(nuevoNombrecito.length <15){
+            console.error("Intente nuevamente");
+        }else{
+        this._name = nuevoNombrecito;
+        }
+    }
+
+    changeName(nuevoNombrecito){
+        this._name = nuevoNombrecito;
     }
     addClass(newClass){
         this.classes.push(newClass)
+    
     }
 };
 class LearningPath{
@@ -18,7 +33,7 @@ class LearningPath{
         courses = []
     })
     {
-        this.name = name;
+        this._name = name;
         this.courses = courses;
     }
     addCourse(newCourse){
@@ -138,6 +153,3 @@ const charles = new Student({
         escDataScience,
     ]
 });
-
-
-
