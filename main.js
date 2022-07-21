@@ -1,3 +1,24 @@
+// Creando la Clase Comentario
+class Comment {
+    constructor({
+        content,
+        studentName,
+        studentRole = "estudiante",
+    })
+    {
+        this.content = content;
+        this.studentName = studentName;
+        this.studentRole = studentRole;
+        this.likes = 0;
+    }
+    publicar() {
+        console.log(this.studentName + " (" + this.studentRole + ")");
+        console.log(this.likes + " likes");
+        console.log(this.content);
+        //Charles(Estudiante)
+    }
+}
+
 // Creando prototimos con sintaxis de clases
 class Course{
     constructor({
@@ -10,7 +31,7 @@ class Course{
         this._name = name;
         this.classes = classes;
         this.isFree = isFree;
-        this.lang = lang;
+        this._lang = lang;
     }
     get name(){
         return this._name;
@@ -21,6 +42,16 @@ class Course{
         }else{
         this._name = nuevoNombrecito;
         }
+    }
+    get lang(){
+        return this._lang;
+    }
+    set lang(newLang){
+    if (newLang =="Spanish" || newLang == "English"){
+        this._lang = newLang;
+    }else{
+        console.log("Ingrese un idioma valido")
+    }
     }
 
     changeName(nuevoNombrecito){
@@ -67,9 +98,16 @@ class Student{
         this.approvedCourses = approvedCourses;
         this.learningPaths = learningPaths;
     }
- 
+    publicarComentario(commentContent){
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,
+        });
+        comment.publicar()
+    }
 };
 
+// Heredando atributos de Students a Free,Basic y Expert
 class FreeStudent extends Student{
     constructor(props){
         super(props);
@@ -94,7 +132,6 @@ class BasicStudent extends Student{
         }
     }
 };
-
 class ExpertStudent extends Student{
     constructor(props){
         super(props);
@@ -103,6 +140,26 @@ class ExpertStudent extends Student{
         this.approvedCourses.push(newCourse);
     }
 };
+
+//Polimorfismo 
+class TeacherStudents extends Student{
+    constructor(props){
+        super(props);
+    }
+    approveCourse(newCourse){
+        this.approvedCourses.push(newCourse);
+    }
+    //Polimorfismo 
+    publicarComentario(commentContent){
+        const comment = new Comment({
+            content: commentContent,
+            studentName: this.name,
+            studentRole: "Teacher",
+        })
+        comment.publicar()
+    }
+};
+
 
 // Creando instancias de objeto Course
 const cursoProgBasica = new Course({
@@ -136,7 +193,7 @@ const cursoEnglish = new Course({
 })
 
 
-// Instancias de objeto LearningPath
+// Instancias de objeto LearningPath/ Creando escuelas de aprendizaje
 const escDataScience = new LearningPath({
     name: "Escuela de Data Science",
     courses: [
@@ -165,7 +222,7 @@ const escuelaVideojuegos = new LearningPath({
 });
 
 
-// Instancias de objeto Student
+// Instancias de objeto Student / Creando estudiantes
 const juan = new ExpertStudent({
     name: "JuanDC",
     username : "juandc",
@@ -175,8 +232,8 @@ const juan = new ExpertStudent({
         cursoDefinitivoHTML,
         cursoPracticoHTML,
     ],
-    twitter: "juandc"
-});
+    twitter: "juandc" 
+    });
 const charles = new BasicStudent({
     name: "Charles",
     username : "chwilliams",
@@ -196,4 +253,11 @@ const charles = new BasicStudent({
 const pepe = new FreeStudent({
     name: "Pepe",
     username: "josejose"
+})
+
+const freddy = new TeacherStudents({
+    name: "Freddy Vega",
+    username: "freddier",
+    instagram : "freddier",
+    email: "freddyvega@gmail.com"
 })
